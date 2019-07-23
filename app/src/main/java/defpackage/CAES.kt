@@ -7,15 +7,15 @@ object CAES {
         System.loadLibrary("libmain")
     }
 
-    external fun encrypt_cbc(): String
+    external fun encrypt_cbc(src: String): String
 
-    external fun decrypt_cbc(): String
+    external fun decrypt_cbc(src: String): String
 
-    external fun encrypt_ctr(): String
+    external fun encrypt_ctr(src: String): String
 
-    external fun decrypt_ctr(): String
+    external fun decrypt_ctr(src: String): String
 
-    external fun encrypt_ecb(): String
+    external fun encrypt_ecb(src: String): String
 
-    external fun decrypt_ecb(): String
+    external fun decrypt_ecb(src: String): String
 }

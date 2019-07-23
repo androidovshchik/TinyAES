@@ -22,28 +22,28 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         launch {
             encrypt_cpp.text = "JAVA ENCRYPT: Подождите..."
             val result = withContext(Dispatchers.Default) {
-
+                JAESCBC.encrypt(getString(R.string.test))
             }
             encrypt_cpp.text = "JAVA ENCRYPT: $result"
         }
         launch {
             encrypt_cpp.text = "CPP ENCRYPT: Подождите..."
             val result = withContext(Dispatchers.Default) {
-                CAES.encrypt_cbc()
+                CAES.encrypt_cbc(getString(R.string.test))
             }
             encrypt_cpp.text = "CPP ENCRYPT: $result"
         }
         launch {
             decrypt_java.text = "JAVA DECRYPT: Подождите..."
             val result = withContext(Dispatchers.Default) {
-
+                JAESCBC.decrypt(getString(R.string.test))
             }
             decrypt_java.text = "JAVA DECRYPT: $result"
         }
         launch {
             decrypt_cpp.text = "CPP DECRYPT: Подождите..."
             val result = withContext(Dispatchers.Default) {
-                CAES.encrypt_cbc()
+                CAES.decrypt_cbc(getString(R.string.test))
             }
             decrypt_cpp.text = "CPP DECRYPT: $result"
         }
