@@ -76,6 +76,15 @@
             android:text="НАЧАТЬ"/>
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:background="@android:color/holo_green_dark"
+            android:text="Зашифрованное (JAVA - C)"/>
+
+        <TextView
             android:id="@+id/encrypt_java"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -83,7 +92,7 @@
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:background="@android:color/holo_red_dark"
-            tools:text="JAVA"/>
+            tools:text="TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText"/>
 
         <TextView
             android:id="@+id/encrypt_cpp"
@@ -93,7 +102,16 @@
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:background="@android:color/holo_orange_dark"
-            tools:text="C++"/>
+            tools:text="TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:background="@android:color/holo_green_dark"
+            android:text="Дешифрованное (JAVA - C)"/>
 
         <TextView
             android:id="@+id/decrypt_java"
@@ -103,7 +121,7 @@
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:background="@android:color/holo_red_dark"
-            tools:text="JAVA"/>
+            tools:text="TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText"/>
 
         <TextView
             android:id="@+id/decrypt_cpp"
@@ -113,7 +131,7 @@
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:background="@android:color/holo_orange_dark"
-            tools:text="C++"/>
+            tools:text="TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText"/>
 
     </LinearLayout>
 

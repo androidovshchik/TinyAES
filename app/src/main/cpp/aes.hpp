@@ -1,6 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "OtherCpp"
-
 #ifndef _AES_HPP_
 #define _AES_HPP_
 
@@ -13,5 +10,3 @@ extern "C" {
 }
 
 #endif //_AES_HPP_
-
-#pragma clang diagnostic pop

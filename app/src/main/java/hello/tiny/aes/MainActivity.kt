@@ -19,33 +19,32 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         Timber.plant(Timber.DebugTree())
         setContentView(R.layout.activity_main)
         title = "AES256/CBC/NoPadding"
-        launch {
-            encrypt_cpp.text = "JAVA ENCRYPT: Подождите..."
-            val result = withContext(Dispatchers.Default) {
-                JAESCBC.encrypt(getString(R.string.test))
+        start.setOnClickListener {
+            val iv = input_iv
+            launch {
+                encrypt_java.text = "Подождите..."
+                encrypt_java.text = withContext(Dispatchers.Default) {
+                    JAESCBC.encrypt(getString(R.string.test))
+                }
             }
-            encrypt_cpp.text = "JAVA ENCRYPT: $result"
-        }
-        launch {
-            encrypt_cpp.text = "CPP ENCRYPT: Подождите..."
-            val result = withContext(Dispatchers.Default) {
-                CAES.encrypt_cbc(getString(R.string.test))
+            launch {
+                encrypt_cpp.text = "Подождите..."
+                encrypt_cpp.text = withContext(Dispatchers.Default) {
+                    CAES.encrypt_cbc(getString(R.string.test))
+                }
             }
-            encrypt_cpp.text = "CPP ENCRYPT: $result"
-        }
-        launch {
-            decrypt_java.text = "JAVA DECRYPT: Подождите..."
-            val result = withContext(Dispatchers.Default) {
-                JAESCBC.decrypt(getString(R.string.test))
+            launch {
+                decrypt_java.text = "Подождите..."
+                decrypt_java.text = withContext(Dispatchers.Default) {
+                    JAESCBC.decrypt(getString(R.string.test))
+                }
             }
-            decrypt_java.text = "JAVA DECRYPT: $result"
-        }
-        launch {
-            decrypt_cpp.text = "CPP DECRYPT: Подождите..."
-            val result = withContext(Dispatchers.Default) {
-                CAES.decrypt_cbc(getString(R.string.test))
+            launch {
+                decrypt_cpp.text = "Подождите..."
+                decrypt_cpp.text = withContext(Dispatchers.Default) {
+                    CAES.decrypt_cbc(getString(R.string.test))
+                }
             }
-            decrypt_cpp.text = "CPP DECRYPT: $result"
         }
     }
 
