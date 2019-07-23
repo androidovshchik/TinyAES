@@ -1,10 +1,10 @@
 package defpackage
 
 @Suppress("FunctionName")
-object AES {
+object CAES {
 
     init {
-        System.loadLibrary("libaes")
+        System.loadLibrary("libmain")
     }
 
     external fun encrypt_cbc(): String
