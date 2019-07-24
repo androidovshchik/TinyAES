@@ -10,4 +10,4 @@ cmake_minimum_required(VERSION 3.4.1)
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
 
-add_library(libcaes SHARED aes/aes.c caes.cpp)
+add_library(libcaescbc SHARED aes/aes.c caescbc.cpp)

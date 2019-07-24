@@ -8,9 +8,6 @@ import javax.crypto.spec.SecretKeySpec
 
 object JAESCBC {
 
-    /**
-     * @param data Для совпадения результатов строка меняется [CAESCBC.getPaddedData]
-     */
     @Throws(Exception::class)
     fun encrypt(data: String, password: String): String {
         val cipher = Cipher.getInstance("AES/CBC/NoPadding")

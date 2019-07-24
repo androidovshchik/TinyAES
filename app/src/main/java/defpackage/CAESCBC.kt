@@ -17,7 +17,7 @@ object CAESCBC {
     )
 
     init {
-        System.loadLibrary("libcaes")
+        System.loadLibrary("libcaescbc")
     }
 
     @Throws(Exception::class)
@@ -26,18 +26,13 @@ object CAESCBC {
             .toString(Charsets.UTF_8)
     }
 
-    /**
-     * @param data Подразумевается, что длина строки делится на 16 байт
-     */
     @Throws(Exception::class)
     fun decrypt(data: String, password: String): String {
         return decrypt(Base64.decode(data, Base64.NO_WRAP), generateKey(password), IV_BYTES)
             .toString(Charsets.UTF_8)
     }
 
-    /**
-     * Tiny AES требует, чтобы длина строки делилась на 16 байт
-     */
+    @Throws(Exception::class)
     fun getPaddedData(data: String): ByteArray {
         val plainBytes = data.toByteArray(Charsets.UTF_8)
         return if (plainBytes.size % 16 != 0) {
