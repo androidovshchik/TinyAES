@@ -22,10 +22,13 @@ object CAESCBC {
 
     @Throws(Exception::class)
     fun encrypt(data: String, password: String): String {
-        return Base64.encode(encrypt(getFixedData(data), generateKey(password), IV_BYTES), Base64.NO_WRAP)
+        return Base64.encode(encrypt(getPaddedData(data), generateKey(password), IV_BYTES), Base64.NO_WRAP)
             .toString(Charsets.UTF_8)
     }
 
+    /**
+     * @param data Подразумевается, что длина строки делится на 16 байт
+     */
     @Throws(Exception::class)
     fun decrypt(data: String, password: String): String {
         return decrypt(Base64.decode(data, Base64.NO_WRAP), generateKey(password), IV_BYTES)
@@ -33,14 +36,23 @@ object CAESCBC {
     }
 
     /**
-     * Tiny AES требует, чтобы исходный текст был
+     * Tiny AES требует, чтобы длина строки делилась на 16 байт
      */
-    fun getFixedData(data: String): ByteArray {
-        return data.toByteArray(Charsets.UTF_8)
+    fun getPaddedData(data: String): ByteArray {
+        val plainBytes = data.toByteArray(Charsets.UTF_8)
+        return if (plainBytes.size % 16 != 0) {
+            val paddedBytes = ByteArray((plainBytes.size / 16 + 1) * 16)
+            System.arraycopy(plainBytes, 0, paddedBytes, 0, plainBytes.size)
+            paddedBytes
+        } else {
+            plainBytes
+        }
     }
 
     /**
-     * Получение 256 битного ключа из пароля
+     * Получение 256 битного (32 байта) ключа из пароля
+     * Можно обойтись без этого, но тогда придется как-то по-другому задавать ключ
+     * например, как [IV_BYTES]
      */
     @Throws(Exception::class)
     fun generateKey(password: String): ByteArray {
