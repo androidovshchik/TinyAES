@@ -1,5 +1,6 @@
 package defpackage
 
+import android.util.Base64
 import java.security.MessageDigest
 
 /**
@@ -19,23 +20,36 @@ object CAESCBC {
         System.loadLibrary("libcaes")
     }
 
+    @Throws(Exception::class)
     fun encrypt(data: String, password: String): String {
-        return encrypt(data.toByteArray(Charsets.UTF_8), generateKey(password), IV_BYTES)
-    }
-
-    fun decrypt(data: String, password: String): String {
-        return decrypt(data.toByteArray(Charsets.UTF_8), generateKey(password), IV_BYTES)
+        return Base64.encode(encrypt(getFixedData(data), generateKey(password), IV_BYTES), Base64.NO_WRAP)
+            .toString(Charsets.UTF_8)
     }
 
     @Throws(Exception::class)
-    fun generateKey(password: String): ByteArray {
-        val digest = MessageDigest.getInstance("SHA-256")
-        val bytes = password.toByteArray(Charsets.UTF_8)
-        digest.update(bytes, 0, bytes.size)
-        return digest.digest()
+    fun decrypt(data: String, password: String): String {
+        return decrypt(Base64.decode(data, Base64.NO_WRAP), generateKey(password), IV_BYTES)
+            .toString(Charsets.UTF_8)
     }
 
-    private external fun encrypt(data: ByteArray, key: ByteArray, iv: ByteArray): String
+    /**
+     * Tiny AES требует, чтобы исходный текст был
+     */
+    fun getFixedData(data: String): ByteArray {
+        return data.toByteArray(Charsets.UTF_8)
+    }
 
-    private external fun decrypt(data: ByteArray, key: ByteArray, iv: ByteArray): String
+    /**
+     * Получение 256 битного ключа из пароля
+     */
+    @Throws(Exception::class)
+    fun generateKey(password: String): ByteArray {
+        MessageDigest.getInstance("SHA-256").apply {
+            return digest(password.toByteArray(Charsets.UTF_8))
+        }
+    }
+
+    private external fun encrypt(data: ByteArray, key: ByteArray, iv: ByteArray): ByteArray
+
+    private external fun decrypt(data: ByteArray, key: ByteArray, iv: ByteArray): ByteArray
 }

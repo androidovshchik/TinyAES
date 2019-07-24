@@ -16,7 +16,7 @@ object JAESCBC {
             SecretKeySpec(CAESCBC.generateKey(password), "AES"),
             IvParameterSpec(CAESCBC.IV_BYTES)
         )
-        return Base64.encode(cipher.doFinal(data.toByteArray(Charsets.UTF_8)), Base64.DEFAULT)
+        return Base64.encode(cipher.doFinal(CAESCBC.getFixedData(data)), Base64.NO_WRAP)
             .toString(Charsets.UTF_8)
     }
 
@@ -28,7 +28,7 @@ object JAESCBC {
             SecretKeySpec(CAESCBC.generateKey(password), "AES"),
             IvParameterSpec(CAESCBC.IV_BYTES)
         )
-        return cipher.doFinal(Base64.decode(data, Base64.DEFAULT))
+        return cipher.doFinal(Base64.decode(data, Base64.NO_WRAP))
             .toString(Charsets.UTF_8)
     }
 }
