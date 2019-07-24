@@ -3,7 +3,7 @@ package hello.tiny.aes
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import defpackage.CAES
+import defpackage.CAESCBC
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 import org.jetbrains.anko.toast
@@ -20,43 +20,37 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         setContentView(R.layout.activity_main)
         title = "AES256/CBC/NoPadding"
         start_java.setOnClickListener {
-            val key = input_key.text.toString()
-            val iv = input_iv.text.toString()
+            val password = input_password.text.toString()
             launch {
                 encrypt_java.text = "Подождите..."
                 decrypt_java.text = "Подождите..."
-                time_java1.text = "0 мс"
-                time_java2.text = "0 мс"
                 var time = System.currentTimeMillis()
                 encrypt_java.text = withContext(Dispatchers.Default) {
-                    JAESCBC.encrypt(input_data.text.toString(), key, iv)
+                    JAESCBC.encrypt(input_data.text.toString(), password)
                 }
-                time_java1.text = "${System.currentTimeMillis() - time} мс"
+                Timber.d("JAVA1 ${System.currentTimeMillis() - time} мс")
                 time = System.currentTimeMillis()
                 decrypt_java.text = withContext(Dispatchers.Default) {
-                    JAESCBC.decrypt(encrypt_java.text.toString(), key, iv)
+                    JAESCBC.decrypt(encrypt_java.text.toString(), password)
                 }
-                time_java2.text = "${System.currentTimeMillis() - time} мс"
+                Timber.d("JAVA2 ${System.currentTimeMillis() - time} мс")
             }
         }
         start_cpp.setOnClickListener {
-            val key = input_key.text.toString()
-            val iv = input_iv.text.toString()
+            val password = input_password.text.toString()
             launch {
                 encrypt_cpp.text = "Подождите..."
                 decrypt_cpp.text = "Подождите..."
-                time_cpp1.text = "0 мс"
-                time_cpp2.text = "0 мс"
                 var time = System.currentTimeMillis()
                 encrypt_cpp.text = withContext(Dispatchers.Default) {
-                    CAES.encrypt_cbc(input_data.text.toString(), key, iv)
+                    CAESCBC.encrypt(input_data.text.toString(), password)
                 }
-                time_cpp1.text = "${System.currentTimeMillis() - time} мс"
+                Timber.d("CPP1 ${System.currentTimeMillis() - time} мс")
                 time = System.currentTimeMillis()
                 decrypt_cpp.text = withContext(Dispatchers.Default) {
-                    CAES.decrypt_cbc(encrypt_cpp.text.toString(), key, iv)
+                    CAESCBC.decrypt(encrypt_cpp.text.toString(), password)
                 }
-                time_cpp2.text = "${System.currentTimeMillis() - time} мс"
+                Timber.d("CPP2 ${System.currentTimeMillis() - time} мс")
             }
         }
     }

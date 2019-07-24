@@ -1,32 +1,34 @@
 package hello.tiny.aes
 
 import android.util.Base64
-import java.security.GeneralSecurityException
+import defpackage.CAESCBC
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
 object JAESCBC {
 
-    @Throws(GeneralSecurityException::class)
-    fun encrypt(src: String, key: String, iv: String): String {
+    @Throws(Exception::class)
+    fun encrypt(data: String, password: String): String {
         val cipher = Cipher.getInstance("AES/CBC/NoPadding")
         cipher.init(
-            Cipher.ENCRYPT_MODE, SecretKeySpec(key.toByteArray(Charsets.UTF_8), "AES"),
-            IvParameterSpec(iv.toByteArray(Charsets.UTF_8))
+            Cipher.ENCRYPT_MODE,
+            SecretKeySpec(CAESCBC.generateKey(password), "AES"),
+            IvParameterSpec(CAESCBC.IV_BYTES)
         )
-        return Base64.encode(cipher.doFinal(src.toByteArray(Charsets.UTF_8)), Base64.DEFAULT)
+        return Base64.encode(cipher.doFinal(data.toByteArray(Charsets.UTF_8)), Base64.DEFAULT)
             .toString(Charsets.UTF_8)
     }
 
-    @Throws(GeneralSecurityException::class)
-    fun decrypt(src: String, key: String, iv: String): String {
+    @Throws(Exception::class)
+    fun decrypt(data: String, password: String): String {
         val cipher = Cipher.getInstance("AES/CBC/NoPadding")
         cipher.init(
-            Cipher.DECRYPT_MODE, SecretKeySpec(key.toByteArray(Charsets.UTF_8), "AES"),
-            IvParameterSpec(iv.toByteArray(Charsets.UTF_8))
+            Cipher.DECRYPT_MODE,
+            SecretKeySpec(CAESCBC.generateKey(password), "AES"),
+            IvParameterSpec(CAESCBC.IV_BYTES)
         )
-        return cipher.doFinal(Base64.decode(src, Base64.DEFAULT))
+        return cipher.doFinal(Base64.decode(data, Base64.DEFAULT))
             .toString(Charsets.UTF_8)
     }
 }
