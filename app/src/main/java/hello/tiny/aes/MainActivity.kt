@@ -2,6 +2,7 @@ package hello.tiny.aes
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import defpackage.CAESCBC
 import kotlinx.android.synthetic.main.activity_main.*
@@ -19,6 +20,13 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         Timber.plant(Timber.DebugTree())
         setContentView(R.layout.activity_main)
         title = "AES256/CBC/NoPadding"
+        input_data.setOnTouchListener { view, event ->
+            view.parent.requestDisallowInterceptTouchEvent(true)
+            if ((event.action and MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+                view.parent.requestDisallowInterceptTouchEvent(false)
+            }
+            return@setOnTouchListener false
+        }
         start_java.setOnClickListener {
             val password = input_password.text.toString()
             launch {
