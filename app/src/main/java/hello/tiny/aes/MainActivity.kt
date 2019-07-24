@@ -29,11 +29,13 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                     JAESCBC.encrypt(input_data.text.toString(), password)
                 }
                 Timber.d("JAVA1 ${System.currentTimeMillis() - time} мс")
+                Timber.d(encrypt_java.text.toString())
                 time = System.currentTimeMillis()
                 decrypt_java.text = withContext(Dispatchers.Default) {
                     JAESCBC.decrypt(encrypt_java.text.toString(), password)
                 }
                 Timber.d("JAVA2 ${System.currentTimeMillis() - time} мс")
+                Timber.d("\"${decrypt_java.text}\"")
             }
         }
         start_cpp.setOnClickListener {
@@ -46,11 +48,13 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                     CAESCBC.encrypt(input_data.text.toString(), password)
                 }
                 Timber.d("CPP1 ${System.currentTimeMillis() - time} мс")
+                Timber.d(encrypt_cpp.text.toString())
                 time = System.currentTimeMillis()
                 decrypt_cpp.text = withContext(Dispatchers.Default) {
                     CAESCBC.decrypt(encrypt_cpp.text.toString(), password)
                 }
                 Timber.d("CPP2 ${System.currentTimeMillis() - time} мс")
+                Timber.d("\"${decrypt_cpp.text}\"")
             }
         }
     }
