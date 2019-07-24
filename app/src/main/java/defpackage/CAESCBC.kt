@@ -22,7 +22,7 @@ object CAESCBC {
 
     @Throws(Exception::class)
     fun encrypt(data: String, password: String): String {
-        return Base64.encode(encrypt(getPaddedData(data), get256BitKey(password), IV_BYTES), Base64.NO_WRAP)
+        return Base64.encode(encrypt(addZeroBytes(data), get256BitKey(password), IV_BYTES), Base64.NO_WRAP)
             .toString(Charsets.UTF_8)
     }
 
@@ -30,10 +30,11 @@ object CAESCBC {
     fun decrypt(data: String, password: String): String {
         return decrypt(Base64.decode(data, Base64.NO_WRAP), get256BitKey(password), IV_BYTES)
             .toString(Charsets.UTF_8)
+            .replace(0.toChar().toString(), "")
     }
 
     @Throws(Exception::class)
-    fun getPaddedData(data: String): ByteArray {
+    fun addZeroBytes(data: String): ByteArray {
         val plainBytes = data.toByteArray(Charsets.UTF_8)
         return if (plainBytes.size % 16 != 0) {
             val paddedBytes = ByteArray((plainBytes.size / 16 + 1) * 16)

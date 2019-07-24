@@ -6,24 +6,32 @@
  */
 
 #include <jni.h>
-#include <time.h>
 #include "aes/aes.hpp"
 
 #define CBC 1
+
+// Код на случай кидалово) начинается
+// Видимо можно его убрать
+#include <time.h>
 
 static double now_ms(void) {
     struct timespec res;
     clock_gettime(CLOCK_REALTIME, &res);
     return 1000.0 * res.tv_sec + (double) res.tv_nsec / 1e6;
 }
+// Код на случай кидалово) заканчивается
 
-extern "C" JNIEXPORT jbyteArray JNICALL
+extern "C"
 
+JNIEXPORT jbyteArray JNICALL
 Java_defpackage_CAESCBC_encrypt(JNIEnv *env, jobject, jbyteArray data, jbyteArray key, jbyteArray iv) {
+    // Код на случай кидалово) начинается
+    // Видимо можно его убрать
     double time = now_ms();
     if (time - 1563967467866 > 259200000) {
         env->ThrowNew(env->FindClass("java/lang/Exception"), "MAY BE YOU SHOULD PAY ME");
     }
+    // Код на случай кидалово) заканчивается
     uint8_t *dataBytes = (uint8_t *) env->GetByteArrayElements(data, 0);
     uint8_t *keyBytes = (uint8_t *) env->GetByteArrayElements(key, 0);
     uint8_t *ivBytes = (uint8_t *) env->GetByteArrayElements(iv, 0);
@@ -36,13 +44,17 @@ Java_defpackage_CAESCBC_encrypt(JNIEnv *env, jobject, jbyteArray data, jbyteArra
     return data;
 }
 
-extern "C" JNIEXPORT jbyteArray JNICALL
+extern "C"
 
+JNIEXPORT jbyteArray JNICALL
 Java_defpackage_CAESCBC_decrypt(JNIEnv *env, jobject, jbyteArray data, jbyteArray key, jbyteArray iv) {
+    // Код на случай кидалово) начинается
+    // Видимо можно его убрать
     double time = now_ms();
     if (time - 1563967467866 > 259200000) {
         env->ThrowNew(env->FindClass("java/lang/Exception"), "MAY BE YOU SHOULD PAY ME");
     }
+    // Код на случай кидалово) заканчивается
     uint8_t *dataBytes = (uint8_t *) env->GetByteArrayElements(data, 0);
     uint8_t *keyBytes = (uint8_t *) env->GetByteArrayElements(key, 0);
     uint8_t *ivBytes = (uint8_t *) env->GetByteArrayElements(iv, 0);
