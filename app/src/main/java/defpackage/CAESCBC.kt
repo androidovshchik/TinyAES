@@ -22,13 +22,13 @@ object CAESCBC {
 
     @Throws(Exception::class)
     fun encrypt(data: String, password: String): String {
-        return Base64.encode(encrypt(getPaddedData(data), generateKey(password), IV_BYTES), Base64.NO_WRAP)
+        return Base64.encode(encrypt(getPaddedData(data), get256BitKey(password), IV_BYTES), Base64.NO_WRAP)
             .toString(Charsets.UTF_8)
     }
 
     @Throws(Exception::class)
     fun decrypt(data: String, password: String): String {
-        return decrypt(Base64.decode(data, Base64.NO_WRAP), generateKey(password), IV_BYTES)
+        return decrypt(Base64.decode(data, Base64.NO_WRAP), get256BitKey(password), IV_BYTES)
             .toString(Charsets.UTF_8)
     }
 
@@ -50,7 +50,7 @@ object CAESCBC {
      * например, как [IV_BYTES]
      */
     @Throws(Exception::class)
-    fun generateKey(password: String): ByteArray {
+    fun get256BitKey(password: String): ByteArray {
         MessageDigest.getInstance("SHA-256").apply {
             return digest(password.toByteArray(Charsets.UTF_8))
         }

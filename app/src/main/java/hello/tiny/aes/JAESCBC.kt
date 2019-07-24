@@ -13,7 +13,7 @@ object JAESCBC {
         val cipher = Cipher.getInstance("AES/CBC/NoPadding")
         cipher.init(
             Cipher.ENCRYPT_MODE,
-            SecretKeySpec(CAESCBC.generateKey(password), "AES"),
+            SecretKeySpec(CAESCBC.get256BitKey(password), "AES"),
             IvParameterSpec(CAESCBC.IV_BYTES)
         )
         return Base64.encode(cipher.doFinal(CAESCBC.getPaddedData(data)), Base64.NO_WRAP)
@@ -25,7 +25,7 @@ object JAESCBC {
         val cipher = Cipher.getInstance("AES/CBC/NoPadding")
         cipher.init(
             Cipher.DECRYPT_MODE,
-            SecretKeySpec(CAESCBC.generateKey(password), "AES"),
+            SecretKeySpec(CAESCBC.get256BitKey(password), "AES"),
             IvParameterSpec(CAESCBC.IV_BYTES)
         )
         return cipher.doFinal(Base64.decode(data, Base64.NO_WRAP))

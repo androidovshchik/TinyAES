@@ -8,37 +8,42 @@
 #include <jni.h>
 #include "aes/aes.hpp"
 
-/**
- * Раскомментируйте #define, если нужен определенный режим
- */
-#define CBC 1 // NOLINT(cppcoreguidelines-macro-usage)
-//#define CTR 1
-//#define ECB 1
+#define CBC 1
 
 extern "C"
 
 JNIEXPORT jbyteArray JNICALL Java_defpackage_CAESCBC_encrypt(JNIEnv *env, jobject, jbyteArray data, jbyteArray key, jbyteArray iv) {
-    jbyteArray out = env->NewByteArray(32);
-    uint8_t* publicKeyBytes  = (uint8_t*) env->GetByteArrayElements(out, 0);
-    uint8_t* privateKeyBytes = (uint8_t*) env->GetByteArrayElements(privateKey, 0);
+    jint length = env->GetArrayLength(data);
+    jbyteArray result = env->NewByteArray(jint);
+    uint8_t *resultBytes = (uint8_t *) env->GetByteArrayElements(result, 0);
+    uint8_t *dataBytes = (uint8_t *) env->GetByteArrayElements(data, 0);
+    uint8_t *keyBytes = (uint8_t *) env->GetByteArrayElements(key, 0);
+    uint8_t *ivBytes = (uint8_t *) env->GetByteArrayElements(iv, 0);
     struct AES_ctx ctx;
-    AES_init_ctx_iv(&ctx, key, iv);
-    AES_CBC_encrypt_buffer(&ctx, publicKeyBytes, 64);
-    env->ReleaseByteArrayElements(out, publicKeyBytes, 0);
-    env->ReleaseByteArrayElements(privateKey, privateKeyBytes, 0);
-    return out;
+    AES_init_ctx_iv(&ctx, keyBytes, ivBytes);
+    AES_CBC_encrypt_buffer(&ctx, resultBytes, jint);
+    env->ReleaseByteArrayElements(result, (jbyte *) resultBytes, 0);
+    env->ReleaseByteArrayElements(data, (jbyte *) dataBytes, 0);
+    env->ReleaseByteArrayElements(key, (jbyte *) keyBytes, 0);
+    env->ReleaseByteArrayElements(iv, (jbyte *) ivBytes, 0);
+    return result;
 }
 
 extern "C"
 
 JNIEXPORT jbyteArray JNICALL Java_defpackage_CAESCBC_decrypt(JNIEnv *env, jobject, jbyteArray data, jbyteArray key, jbyteArray iv) {
-    jbyteArray out = env->NewByteArray(32);
-    uint8_t* publicKeyBytes  = (uint8_t*) env->GetByteArrayElements(out, 0);
-    uint8_t* privateKeyBytes = (uint8_t*) env->GetByteArrayElements(privateKey, 0);
+    jint length = env->GetArrayLength(data);
+    jbyteArray result = env->NewByteArray(jint);
+    uint8_t *resultBytes = (uint8_t *) env->GetByteArrayElements(result, 0);
+    uint8_t *dataBytes = (uint8_t *) env->GetByteArrayElements(data, 0);
+    uint8_t *keyBytes = (uint8_t *) env->GetByteArrayElements(key, 0);
+    uint8_t *ivBytes = (uint8_t *) env->GetByteArrayElements(iv, 0);
     struct AES_ctx ctx;
-    AES_init_ctx_iv(&ctx, key, iv);
-    AES_CBC_decrypt_buffer(&ctx, publicKeyBytes, 64);
-    env->ReleaseByteArrayElements(out, publicKeyBytes, 0);
-    env->ReleaseByteArrayElements(privateKey, privateKeyBytes, 0);
-    return out;
+    AES_init_ctx_iv(&ctx, keyBytes, ivBytes);
+    AES_CBC_decrypt_buffer(&ctx, resultBytes, jint);
+    env->ReleaseByteArrayElements(result, (jbyte *) resultBytes, 0);
+    env->ReleaseByteArrayElements(data, (jbyte *) dataBytes, 0);
+    env->ReleaseByteArrayElements(key, (jbyte *) keyBytes, 0);
+    env->ReleaseByteArrayElements(iv, (jbyte *) ivBytes, 0);
+    return result;
 }
