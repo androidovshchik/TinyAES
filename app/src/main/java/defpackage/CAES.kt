@@ -1,5 +1,8 @@
 package defpackage
 
+/**
+ * Важны имена пакета и класса
+ */
 @Suppress("FunctionName")
 object CAES {
 
