@@ -19,30 +19,31 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         Timber.plant(Timber.DebugTree())
         setContentView(R.layout.activity_main)
         title = "AES256/CBC/NoPadding"
-        start.setOnClickListener {
-            val iv = input_iv
+        start_java.setOnClickListener {
+            val key = input_key.text.toString()
+            val iv = input_iv.text.toString()
             launch {
                 encrypt_java.text = "Подождите..."
+                decrypt_java.text = "Подождите..."
                 encrypt_java.text = withContext(Dispatchers.Default) {
-                    JAESCBC.encrypt(getString(R.string.test))
+                    JAESCBC.encrypt(input_data.text.toString(), key, iv)
+                }
+                decrypt_java.text = withContext(Dispatchers.Default) {
+                    JAESCBC.decrypt(encrypt_java.text.toString(), key, iv)
                 }
             }
+        }
+        start_cpp.setOnClickListener {
+            val key = input_key.text.toString()
+            val iv = input_iv.text.toString()
             launch {
                 encrypt_cpp.text = "Подождите..."
-                encrypt_cpp.text = withContext(Dispatchers.Default) {
-                    CAES.encrypt_cbc(getString(R.string.test))
-                }
-            }
-            launch {
-                decrypt_java.text = "Подождите..."
-                decrypt_java.text = withContext(Dispatchers.Default) {
-                    JAESCBC.decrypt(getString(R.string.test))
-                }
-            }
-            launch {
                 decrypt_cpp.text = "Подождите..."
+                encrypt_cpp.text = withContext(Dispatchers.Default) {
+                    CAES.encrypt_cbc(input_data.text.toString(), key, iv)
+                }
                 decrypt_cpp.text = withContext(Dispatchers.Default) {
-                    CAES.decrypt_cbc(getString(R.string.test))
+                    CAES.decrypt_cbc(encrypt_cpp.text.toString(), key, iv)
                 }
             }
         }

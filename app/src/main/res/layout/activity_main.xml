@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -67,13 +68,31 @@
             android:background="#E0E0E0"
             android:text="abcdefghijklmnopqrstuvwxyz"/>
 
-        <Button
-            android:id="@+id/start"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:text="НАЧАТЬ"/>
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/start_java"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@android:color/white"
+                android:text="JAVA"
+                app:backgroundTint="@android:color/holo_red_dark"/>
+
+            <Button
+                android:id="@+id/start_cpp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="C++"
+                app:backgroundTint="@android:color/holo_orange_dark"/>
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -82,7 +101,7 @@
             android:textColor="@android:color/white"
             android:textSize="12sp"
             android:background="@android:color/holo_green_dark"
-            android:text="Зашифрованное (JAVA - C)"/>
+            android:text="Зашифрованное"/>
 
         <TextView
             android:id="@+id/encrypt_java"
@@ -111,7 +130,7 @@
             android:textColor="@android:color/white"
             android:textSize="12sp"
             android:background="@android:color/holo_green_dark"
-            android:text="Дешифрованное (JAVA - C)"/>
+            android:text="Дешифрованное"/>
 
         <TextView
             android:id="@+id/decrypt_java"

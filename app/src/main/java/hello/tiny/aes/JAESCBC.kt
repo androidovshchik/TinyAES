@@ -1,63 +1,32 @@
 package hello.tiny.aes
 
-import java.io.UnsupportedEncodingException
-import java.security.Key
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
-import java.security.spec.AlgorithmParameterSpec
-import java.util.*
+import android.util.Base64
+import java.security.GeneralSecurityException
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
 object JAESCBC {
 
-    fun encrypt(src: String): String {
-        try {
-            val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
-            cipher.init(Cipher.ENCRYPT_MODE, makeKey(), makeIv())
-            return Base64.encodeBytes(cipher.doFinal(src.toByteArray()))
-        } catch (e: Exception) {
-            throw RuntimeException(e)
-        }
-
+    @Throws(GeneralSecurityException::class)
+    fun encrypt(src: String, key: String, iv: String): String {
+        val cipher = Cipher.getInstance("AES/CBC/NoPadding")
+        cipher.init(
+            Cipher.ENCRYPT_MODE, SecretKeySpec(key.toByteArray(Charsets.UTF_8), "AES"),
+            IvParameterSpec(iv.toByteArray(Charsets.UTF_8))
+        )
+        return Base64.encode(cipher.doFinal(src.toByteArray(Charsets.UTF_8)), Base64.DEFAULT)
+            .toString(Charsets.UTF_8)
     }
 
-    fun decrypt(src: String): String {
-        var decrypted = ""
-        try {
-            val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
-            cipher.init(Cipher.DECRYPT_MODE, makeKey(), makeIv())
-            decrypted = String(cipher.doFinal(Base64.decode(src)))
-        } catch (e: Exception) {
-            throw RuntimeException(e)
-        }
-
-        return decrypted
-    }
-
-
-    fun makeIv(): AlgorithmParameterSpec? {
-        try {
-            return IvParameterSpec(ENCRYPTION_IV.getBytes("UTF-8"))
-        } catch (e: UnsupportedEncodingException) {
-            e.printStackTrace()
-        }
-
-        return null
-    }
-
-    fun makeKey(): Key? {
-        try {
-            val md = MessageDigest.getInstance("SHA-256")
-            val key = md.digest(ENCRYPTION_KEY.getBytes("UTF-8"))
-            return SecretKeySpec(key, "AES")
-        } catch (e: NoSuchAlgorithmException) {
-            e.printStackTrace()
-        } catch (e: UnsupportedEncodingException) {
-            e.printStackTrace()
-        }
-
-        return null
+    @Throws(GeneralSecurityException::class)
+    fun decrypt(src: String, key: String, iv: String): String {
+        val cipher = Cipher.getInstance("AES/CBC/NoPadding")
+        cipher.init(
+            Cipher.DECRYPT_MODE, SecretKeySpec(key.toByteArray(Charsets.UTF_8), "AES"),
+            IvParameterSpec(iv.toByteArray(Charsets.UTF_8))
+        )
+        return cipher.doFinal(Base64.decode(src, Base64.DEFAULT))
+            .toString(Charsets.UTF_8)
     }
 }
