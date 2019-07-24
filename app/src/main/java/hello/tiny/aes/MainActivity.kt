@@ -3,6 +3,7 @@ package hello.tiny.aes
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MotionEvent
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import defpackage.CAESCBC
 import kotlinx.android.synthetic.main.activity_main.*
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
         Timber.plant(Timber.DebugTree())
         setContentView(R.layout.activity_main)
         title = "AES256/CBC/NoPadding"
