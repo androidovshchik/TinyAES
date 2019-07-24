@@ -4,7 +4,7 @@ package defpackage
 object CAES {
 
     init {
-        System.loadLibrary("libaes")
+        System.loadLibrary("libcaes")
     }
 
     external fun encrypt_cbc(src: String, key: String, iv: String): String

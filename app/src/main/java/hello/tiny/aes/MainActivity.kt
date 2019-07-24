@@ -25,12 +25,18 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             launch {
                 encrypt_java.text = "Подождите..."
                 decrypt_java.text = "Подождите..."
+                time_java1.text = "0 мс"
+                time_java2.text = "0 мс"
+                var time = System.currentTimeMillis()
                 encrypt_java.text = withContext(Dispatchers.Default) {
                     JAESCBC.encrypt(input_data.text.toString(), key, iv)
                 }
+                time_java1.text = "${System.currentTimeMillis() - time} мс"
+                time = System.currentTimeMillis()
                 decrypt_java.text = withContext(Dispatchers.Default) {
                     JAESCBC.decrypt(encrypt_java.text.toString(), key, iv)
                 }
+                time_java2.text = "${System.currentTimeMillis() - time} мс"
             }
         }
         start_cpp.setOnClickListener {
@@ -39,12 +45,18 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             launch {
                 encrypt_cpp.text = "Подождите..."
                 decrypt_cpp.text = "Подождите..."
+                time_cpp1.text = "0 мс"
+                time_cpp2.text = "0 мс"
+                var time = System.currentTimeMillis()
                 encrypt_cpp.text = withContext(Dispatchers.Default) {
                     CAES.encrypt_cbc(input_data.text.toString(), key, iv)
                 }
+                time_cpp1.text = "${System.currentTimeMillis() - time} мс"
+                time = System.currentTimeMillis()
                 decrypt_cpp.text = withContext(Dispatchers.Default) {
                     CAES.decrypt_cbc(encrypt_cpp.text.toString(), key, iv)
                 }
+                time_cpp2.text = "${System.currentTimeMillis() - time} мс"
             }
         }
     }
