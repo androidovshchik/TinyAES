@@ -2,7 +2,6 @@ package hello.tiny.aes
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.MotionEvent
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -21,30 +20,14 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         Timber.plant(Timber.DebugTree())
         setContentView(R.layout.activity_main)
         title = "AES/CBC/Pkcs7"
-        input_data.setOnTouchListener { view, event ->
-            view.parent.requestDisallowInterceptTouchEvent(true)
-            if ((event.action and MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-                view.parent.requestDisallowInterceptTouchEvent(false)
-            }
-            return@setOnTouchListener false
-        }
         btn_decrypt.setOnClickListener {
-            val password = input_password.text.toString()
+            val data = et_data.text.toString()
+            val key = et_key.text.toString()
+            val iv = et_iv.text.toString()
             launch {
-                encrypt_java.text = "Подождите..."
-                decrypt_java.text = "Подождите..."
-                var time = System.currentTimeMillis()
-                encrypt_java.text = withContext(Dispatchers.Default) {
-                    JAESCBC.encrypt(input_data.text.toString(), password)
+                tv_decrypted.text = withContext(Dispatchers.Default) {
+                    Crypto.encrypt(data, key, iv)
                 }
-                Timber.d("JAVA1 ${System.currentTimeMillis() - time} мс")
-                Timber.d(encrypt_java.text.toString())
-                time = System.currentTimeMillis()
-                decrypt_java.text = withContext(Dispatchers.Default) {
-                    JAESCBC.decrypt(encrypt_java.text.toString(), password)
-                }
-                Timber.d("JAVA2 ${System.currentTimeMillis() - time} мс")
-                Timber.d("\"${decrypt_java.text}\"")
             }
         }
     }
