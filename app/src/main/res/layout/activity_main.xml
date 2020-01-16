@@ -18,7 +18,7 @@
             android:textColor="@android:color/white"
             android:textSize="12sp"
             android:background="@android:color/holo_green_dark"
-            android:text="Данные"/>
+            android:text="Зашифрованное" />
 
         <EditText
             android:id="@+id/input_data"
@@ -31,7 +31,7 @@
             android:overScrollMode="always"
             android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."/>
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
 
         <TextView
             android:layout_width="match_parent"
@@ -40,40 +40,59 @@
             android:textColor="@android:color/white"
             android:textSize="12sp"
             android:background="@android:color/holo_green_dark"
-            android:text="Пароль"/>
+            android:text="IV" />
 
         <EditText
-            android:id="@+id/input_password"
+            android:id="@+id/input_iv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
             android:imeOptions="actionNext"
             android:padding="10dp"
             android:background="#E0E0E0"
-            android:text="qwerty12345"/>
+            android:text="12345" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:background="@android:color/holo_green_dark"
+            android:text="Ключ" />
+
+        <EditText
+            android:id="@+id/input_key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            android:padding="10dp"
+            android:background="#E0E0E0"
+            android:text="qwerty" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/start_java"
+                android:id="@+id/btn_decrypt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textColor="@android:color/white"
-                android:text="JAVA"
+                android:text="Дешифровать"
                 app:backgroundTint="@android:color/holo_red_dark"/>
 
             <Button
-                android:id="@+id/start_cpp"
+                android:id="@+id/btn_copy"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="C++"
+                android:text="Копировать"
                 app:backgroundTint="@android:color/holo_orange_dark"/>
 
         </LinearLayout>
@@ -85,49 +104,10 @@
             android:textColor="@android:color/white"
             android:textSize="12sp"
             android:background="@android:color/holo_green_dark"
-            android:text="Зашифрованное"/>
-
-        <TextView
-            android:id="@+id/encrypt_java"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:background="@android:color/holo_red_dark"
-            tools:text="TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText"/>
-
-        <TextView
-            android:id="@+id/encrypt_cpp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:background="@android:color/holo_orange_dark"
-            tools:text="TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            android:background="@android:color/holo_green_dark"
             android:text="Дешифрованное"/>
 
         <TextView
-            android:id="@+id/decrypt_java"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:background="@android:color/holo_red_dark"
-            tools:text="TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText"/>
-
-        <TextView
-            android:id="@+id/decrypt_cpp"
+            android:id="@+id/decrypted"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"

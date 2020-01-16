@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import defpackage.CAESCBC
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 import org.jetbrains.anko.toast
@@ -21,7 +20,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
         Timber.plant(Timber.DebugTree())
         setContentView(R.layout.activity_main)
-        title = "AES256/CBC/NoPadding"
+        title = "AES/CBC/Pkcs7"
         input_data.setOnTouchListener { view, event ->
             view.parent.requestDisallowInterceptTouchEvent(true)
             if ((event.action and MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
@@ -29,7 +28,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             }
             return@setOnTouchListener false
         }
-        start_java.setOnClickListener {
+        btn_decrypt.setOnClickListener {
             val password = input_password.text.toString()
             launch {
                 encrypt_java.text = "Подождите..."
@@ -46,25 +45,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 }
                 Timber.d("JAVA2 ${System.currentTimeMillis() - time} мс")
                 Timber.d("\"${decrypt_java.text}\"")
-            }
-        }
-        start_cpp.setOnClickListener {
-            val password = input_password.text.toString()
-            launch {
-                encrypt_cpp.text = "Подождите..."
-                decrypt_cpp.text = "Подождите..."
-                var time = System.currentTimeMillis()
-                encrypt_cpp.text = withContext(Dispatchers.Default) {
-                    CAESCBC.encrypt(input_data.text.toString(), password)
-                }
-                Timber.d("CPP1 ${System.currentTimeMillis() - time} мс")
-                Timber.d(encrypt_cpp.text.toString())
-                time = System.currentTimeMillis()
-                decrypt_cpp.text = withContext(Dispatchers.Default) {
-                    CAESCBC.decrypt(encrypt_cpp.text.toString(), password)
-                }
-                Timber.d("CPP2 ${System.currentTimeMillis() - time} мс")
-                Timber.d("\"${decrypt_cpp.text}\"")
             }
         }
     }

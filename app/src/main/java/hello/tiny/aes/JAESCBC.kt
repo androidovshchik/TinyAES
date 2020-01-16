@@ -1,7 +1,6 @@
 package hello.tiny.aes
 
 import android.util.Base64
-import defpackage.CAESCBC
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
@@ -10,7 +9,7 @@ object JAESCBC {
 
     @Throws(Exception::class)
     fun encrypt(data: String, password: String): String {
-        val cipher = Cipher.getInstance("AES/CBC/NoPadding")
+        val cipher = Cipher.getInstance("AES/CBC/Pkcs7")
         cipher.init(
             Cipher.ENCRYPT_MODE,
             SecretKeySpec(CAESCBC.get256BitKey(password), "AES"),
@@ -22,7 +21,7 @@ object JAESCBC {
 
     @Throws(Exception::class)
     fun decrypt(data: String, password: String): String {
-        val cipher = Cipher.getInstance("AES/CBC/NoPadding")
+        val cipher = Cipher.getInstance("AES/CBC/Pkcs7")
         cipher.init(
             Cipher.DECRYPT_MODE,
             SecretKeySpec(CAESCBC.get256BitKey(password), "AES"),
