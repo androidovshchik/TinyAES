@@ -1,6 +1,7 @@
 package hello.tiny.aes
 
 import android.util.Base64
+import timber.log.Timber
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
@@ -9,7 +10,7 @@ object Crypto {
 
     @Throws(Exception::class)
     fun encrypt(data: String, key: String, iv: String): String {
-        val cipher = Cipher.getInstance("AES/CBC/Pkcs7")
+        val cipher = Cipher.getInstance("AES/CBC/PKCS7Padding")
         cipher.init(
             Cipher.ENCRYPT_MODE,
             SecretKeySpec(key.toByteArray(), "AES"),
@@ -21,7 +22,8 @@ object Crypto {
 
     @Throws(Exception::class)
     fun decrypt(data: String, key: String, iv: String): String {
-        val cipher = Cipher.getInstance("AES/CBC/Pkcs7")
+        Timber.e(SecretKeySpec(key.toByteArray(), "AES").toString())
+        val cipher = Cipher.getInstance("AES/CBC/PKCS7Padding")
         cipher.init(
             Cipher.DECRYPT_MODE,
             SecretKeySpec(key.toByteArray(), "AES"),

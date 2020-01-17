@@ -2,8 +2,8 @@ package hello.tiny.aes
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import com.chibatching.kotpref.bulk
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 import org.jetbrains.anko.toast
@@ -13,20 +13,28 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     private val job = SupervisorJob()
 
+    private lateinit var preferences: Preferences
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
         Timber.plant(Timber.DebugTree())
+        preferences = Preferences(applicationContext)
         setContentView(R.layout.activity_main)
         title = "AES/CBC/Pkcs7"
+        et_key.setText(preferences.pKey)
+        et_iv.setText(preferences.pIv)
         btn_decrypt.setOnClickListener {
             val data = et_data.text.toString()
             val key = et_key.text.toString()
             val iv = et_iv.text.toString()
+            preferences.bulk {
+                pKey = key
+                pIv = iv
+            }
             launch {
                 tv_decrypted.text = withContext(Dispatchers.Default) {
-                    Crypto.encrypt(data, key, iv)
+                    Crypto.decrypt(data, key, iv)
                 }
             }
         }
